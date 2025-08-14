@@ -1,0 +1,77 @@
+﻿@{
+    var currentPage = ViewContext.RouteData.Values["page"]?.ToString()?.ToLower();
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SmartHRM.Client</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SmartHRM.Client.styles.css" asp-append-version="true" />
+    <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #343a40;
+            color: white;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+            .sidebar a {
+                color: white;
+                padding: 15px;
+                text-decoration: none;
+                display: block;
+            }
+
+                .sidebar a.active, .sidebar a:hover {
+                    background-color: #495057;
+                }
+
+        .main-content {
+            flex-grow: 1;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        .sidebar-header {
+            font-size: 1.4em;
+            padding: 20px;
+            background: #212529;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            SmartHRM
+        </div>
+        <a asp-page="/Index" class="@(currentPage == "/index" ? "active" : "")">🏠 Home</a>
+        <a asp-page="/Organization" class="@(currentPage == "/organization" ? "active" : "")">🏢 Organizations</a>
+        <a asp-page="/Registration" class="@(currentPage == "/registration" ? "active" : "")">📝 Registration</a>
+        <a asp-page="/Roles" class="@(currentPage == "/roles" ? "active" : "")">👥 Roles</a>
+        <a asp-page="/Privacy" class="@(currentPage == "/privacy" ? "active" : "")">🔒 Privacy</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        @RenderBody()
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,77 @@
+﻿@page
+@model SmartHRM.Client.Pages.RolesModel
+@{
+    ViewData["Title"] = "Roles Management";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">🛠 Roles Management (SuperAdmin)</h5>
+        </div>
+        <div class="card-body">
+            <form method="post" asp-page-handler="Add" class="row g-3 align-items-end">
+                <div class="col-md-8">
+                    <label asp-for="RoleName" class="form-label">Role Name</label>
+                    <input asp-for="RoleName" class="form-control" placeholder="Enter new role name" />
+                </div>
+                <div class="col-md-4 text-end">
+                    <button type="submit" class="btn btn-success px-4">➕ Add Role</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @if (Model.Roles != null && Model.Roles.Any())
+    {
+    <div class="card shadow-sm">
+        <div class="card-header bg-secondary text-white">
+            <h5 class="mb-0">📋 Existing Roles</h5>
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0 align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Role Name</th>
+                        <th>Active</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var r in Model.Roles)
+                        {
+                    <tr>
+                        <td>@r.RoleId</td>
+                        <td style="width: 35%;">
+                            <input asp-for="@r.RoleName" form="form-@r.RoleId" class="form-control" />
+                        </td>
+                        <td class="text-center">
+                            <input type="checkbox" asp-for="@r.IsActive" form="form-@r.RoleId" />
+                        </td>
+                        <td class="text-center">
+                            <div class="d-flex justify-content-center gap-2">
+                                <form method="post" asp-page-handler="Update" id="form-@r.RoleId" class="d-inline">
+                                    <input type="hidden" name="RoleId" value="@r.RoleId" />
+                                    <button type="submit" class="btn btn-sm btn-primary">💾 Update</button>
+                                </form>
+                                <form method="post" asp-page-handler="Delete" class="d-inline">
+                                    <input type="hidden" name="RoleId" value="@r.RoleId" />
+                                    <button type="submit" class="btn btn-sm btn-danger">🗑 Delete</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                        }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    }
+    else
+    {
+    <div class="alert alert-warning text-center">
+        ⚠ No roles found. Please add one above.
+    </div>
+    }
+</div>
